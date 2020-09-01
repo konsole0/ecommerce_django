@@ -13,7 +13,7 @@ class Customer(models.Model):
     
 class Product(models.Model):
     name = models.CharField(max_length=200, null=True)
-    name = models.FloatField()
+    price = models.FloatField()
 
     # for checking shipping option
     digital = models.BooleanField(default=False, null=True, blank=False)
@@ -21,3 +21,12 @@ class Product(models.Model):
     def __str__(self):
         return self.name
     
+class Order(models.Model):
+    # 1-to-many relationship: customer can have multiple orders
+    customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, blank=True, null=True) 
+    date_ordered = models.DateTimeField(auto_now_add=True)
+    complete = models.BooleanField(default=False, blank=False, null=True)
+    transaction_id = models.CharField(max_length=200, null=True)
+
+    def __str__(self):
+        return str(self.id)
