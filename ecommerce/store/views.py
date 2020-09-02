@@ -9,7 +9,17 @@ def store(request):
 	return render(request, 'store/store.html', context)
 
 def cart(request):
-	context = {}
+	if request.user.is_authenticated:
+		customer = request.user.customer
+		order, created = Order.objects.get_or_create(customer=customer, complete=False)
+		items = order.orderitem_set.all() # django automatically generates a set for each table/model that contain a FK for Order table/model 
+	else:
+		# if the user is guest (not registered)
+		items = [] # leave it empty for now
+
+	context = {
+		'items': items
+	}
 	return render(request, 'store/cart.html', context)
 
 def checkout(request):
