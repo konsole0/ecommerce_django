@@ -19,6 +19,16 @@ class Product(models.Model):
     digital = models.BooleanField(default=False, null=True, blank=False)
     image = models.ImageField(null=True, blank=True)
    
+    
+    @property
+    def imageUrl(self):
+        # to prevent an error when the product doesn't have an image to render on the page
+        try:
+            url = self.image.url
+        except:
+            url = ''
+        return url
+
     def __str__(self):
         return self.name
     
