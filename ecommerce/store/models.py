@@ -17,6 +17,7 @@ class Product(models.Model):
 
     # for checking shipping option
     digital = models.BooleanField(default=False, null=True, blank=False)
+    image = models.ImageField(null=True, blank=True)
    
     def __str__(self):
         return self.name
